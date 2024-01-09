@@ -1,11 +1,3 @@
-/*
- * Red Pitaya Template Application
- *
- *
- * (c) Red Pitaya  http://www.redpitaya.com
- */
-
-
 (function(APP, $, undefined) {
     
     // App configuration
@@ -79,7 +71,15 @@
             };
 
             APP.ws.onmessage = function(ev) {
-                console.log('Message recieved');
+                console.log('Message recieved from backend');
+                var data = new Float32Array(ev.data);
+                var inflate = pako.inflate(data);
+                var text = String.fromCharCode.apply(null, new Float32Array(inflate));
+                var recieve = JSON.parse(text);
+                //CO TO ROBI ^
+
+                //TODO
+                //if(recieve)
             };
         }
     };
@@ -114,20 +114,24 @@ APP.pause = function(){
     APP.ws.send(JSON.stringify({parameters: local}));
 }
 
+
 // Page onload event handler
 $(function() {
     // Start application
     APP.startApp();
 
     $("startBtn").click(function(){
+        console.log("start click");
         APP.startGen();
     });
 
     $("stopBtn").click(function(){
+        console.log("stop click");
         APP.stopGen();
     });
 
     $("pasueBtn").click(function(){
+        console.log("pause click");
         APP.pause();
     });
 });
