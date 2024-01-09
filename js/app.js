@@ -35,6 +35,9 @@
                     APP.startApp();
                 }
             })
+
+
+
             .fail(function() {
                 console.log('Could not start the application (ERR3)');
                 APP.startApp();
@@ -84,7 +87,32 @@
 }(window.APP = window.APP || {}, jQuery));
 
 
+APP.stopGen = function(){
+    APP.isRunning = false;
+    APP.isPaused = false;
+    var local = {};
+    local['isRunning'] = { value: APP.isRunning };
+    local['isPaused'] = { value: APP.isPaused }; 
+    APP.ws.send(JSON.stringify({parameters: local}));
+};
 
+APP.startGen = function(){
+    APP.isRunning = true;
+    APP.isPaused = false;
+    var local = {};
+    local['isRunning'] = { value: APP.isRunning };
+    local['isPaused'] = { value: APP.isPaused };
+    APP.ws.send(JSON.stringify({parameters: local}));
+};
+
+APP.pause = function(){
+    APP.isRunning = false;
+    APP.isPaused = true;
+    var local = {};
+    local['isRunning'] = { value: APP.isRunning };
+    local['isPaused'] = { value: APP.isPaused }; 
+    APP.ws.send(JSON.stringify({parameters: local}));
+}
 
 // Page onload event handler
 $(function() {
@@ -92,14 +120,14 @@ $(function() {
     APP.startApp();
 
     $("startBtn").click(function(){
-        //sending mechanism to c++
+        APP.startGen();
     });
 
     $("stopBtn").click(function(){
-        //stopping mechanism to c++
+        APP.stopGen();
     });
 
     $("pasueBtn").click(function(){
-        //pausing mechanism to c++
+        APP.pause();
     });
 });
