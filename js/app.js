@@ -90,4 +90,16 @@
 $(function() {
     // Start application
     APP.startApp();
+
+    $("startBtn").click(function(){
+        //sending mechanism to c++
+    });
+
+    $("stopBtn").click(function(){
+        //stopping mechanism to c++
+    });
+
+    $("pasueBtn").click(function(){
+        //pausing mechanism to c++
+    });
 });
